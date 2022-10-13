@@ -1,6 +1,6 @@
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}
 body{line-height:1.6; font-family: arial;}
-h1{font-size: 28px;}h2{font-size: 21px;}h3{font-size: 18px;}h4{font-size: 16px;}
+h1{font-size: 28px; color: #333;}h2{font-size: 21px; color: #555;}h3{font-size: 18px;}h4{font-size: 16px;}
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
 nav ul{list-style:none}
 blockquote,q{quotes:none}
@@ -22,7 +22,7 @@ body {
 	background-color: #FFF;
 }
 header {
-    background: #999;
+    background: #d8d6d3;
     padding: 10px 30px;
     margin: auto;
 }
@@ -39,7 +39,7 @@ nav ul li a {
     font-size: 20px;
     text-decoration: none;
     font-weight: bold;
-    color: #444;
+    color: #555;
     /* border-radius: 10px; */
 }
 nav ul li a:hover {
@@ -71,15 +71,15 @@ aside {
 	width: 30%;
 }
 aside div a i{
-    color: black;
+    color: #555;
 	font-size: 60px;
 }
 aside div a{
-    color: black;
+    color: #555;
     text-decoration: none;
 }
 aside div a:visited i{
-    color: black;
+    color: #555;
 }
 article {
     border-bottom: 2px dotted #999;
@@ -103,7 +103,7 @@ main section {
 	
 }
 footer {
-	background: #999;
+	background: #d8d6d3;
 	margin: auto;
 	clear: both;
 	text-align: right;
@@ -114,6 +114,7 @@ footer {
 }
 footer p {
 	padding: 10px;
+    color: #555;
 }
 address {
     padding: 10px 20px 30px 10px;
@@ -140,7 +141,7 @@ body > section {
     margin: auto;
     padding: 30px 0px;
     border-bottom: 1px solid #999;
-    color: #333;
+    color: #777;
 }
 #headshot img {
     display:block;
