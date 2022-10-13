@@ -99,6 +99,11 @@ article ul {
 article ul li {
     margin: 10px;
 }
+article img.projimg {
+    /* display:block; */
+    width: 40%; 
+}
+
 main section {
 	
 }
