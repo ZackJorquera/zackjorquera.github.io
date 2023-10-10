@@ -167,6 +167,11 @@ body > section {
     display:block;
     width: 100%; 
 }
+#headshot h3 {
+    font-weight: normal;
+    margin-bottom: 12px;
+    text-align: right;
+}
 
 @media screen and (max-width: 1000px) {
 	body > section {

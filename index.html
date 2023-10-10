@@ -29,7 +29,10 @@
 	</section>
 	<section id="pageContent">
 		<aside>
-			<div id="headshot"><img src="images/headshot.jpg" alt="Hey, that's me."></div>
+			<div id="headshot">
+				<h3 id="aboutTextHeadshot"></h3>
+				<img id="headshotimg" src="images/headshot.jpg" alt="Hey, that's me.">
+			</div>
 			<div style="text-align:center">
 				<h2>Links:</h2>
 				<a href="https://scholar.google.com/citations?user=_KsgD-wAAAAJ&hl=en" target="_blank" title="Google Scholar">
@@ -54,17 +57,20 @@
 			<article>
 				<h2>About Me</h2>
 				<p>
-					My name is Zack. I'm from Colorado, with half my family originally from Chile. I'm a Ph.D. student at UCSC in the Algorithms and Theory group working under <a href="https://people.ucsc.edu/~akolla/">Alex Kolla</a>.
-					I love math, computer science, and the intersection of the two; theoretical computer science.
-					I also enjoy teaching and hope to teach many classes during my Ph.D.
+					My name is Zack. I'm from Colorado, with half my family originally from Chile. I'm a Ph.D. student at <a href="https://www.ucsc.edu/">UCSC</a> in the <a href="#">Algorithms and Theory group</a> working under <a href="https://people.ucsc.edu/~akolla/">Alex Kolla</a>.
+					I love math, computer science, and the intersection of the two: theoretical computer science.
     			</p><br /><p>
         			I did my undergrad at the University of Colorado at Boulder, where I graduated <!--Summa Cum Laude-->with a BS in computer science and a double minor in applied math and pure math.
     			</p>
 			</article>
 			<article>
 				<h2>Contact Information</h2>
-				<p>Email Me: zjorquer [at] ucsc [dot] edu</p>
-					</li>
+				<!-- <p>Email Me: zjorquer [at] ucsc [dot] edu</p> -->
+				<p>Email Me:</p>
+				<ul>
+					<li> UCSC (default): <a href="#">zjorquer [at] ucsc [dot] edu</a></li>
+					<li> Personal: <a href="#">jorquerazack [at] gmail [dot] com</a></li>
+				</ul>
 			</article>
 			<article>
 				<h2>Research Interests</h2>
@@ -72,8 +78,11 @@
 			</article>
 			<article>
 				<h2>Hobbies</h2>
-				<p>
-					Outside of school, I like to Whitewater Kayak and Ski. For kayaking, some notable sections I've done are the Colorado classics Bailey Canyon and Gore Canyon (both are class IV-V). Then in California, I ran the Tobin section on the NF Feather (class IV-V-) and the south fork of the Feather (class IV-V). For skiing, In Colorado, I've done Dragontail Couloir and Silvers Coulior (one of the 50 classic descents of North America).
+				<p onmouseover="changeHeadshotImg1()" onmouseout="changeHeadshotImg2()">
+					Outside of school, I like to Whitewater Kayak and Ski.
+					For kayaking, some notable sections I've done are the Colorado classics Bailey Canyon and Gore Canyon (both are class IV-V).
+					Then in California, I ran the Tobin section of the north fork of the Feather (class IV+) and the south fork of the Feather (class IV-V).
+					For skiing, In Colorado, I've done Dragontail Couloir and Silvers Coulior (one of the 50 classic descents of North America).
 				</p>
 			</article>
 		</main>
