@@ -1,3 +1,4 @@
+%%% These notes were made by Zack Jorquera (https://zackjorquera.github.io/). %%%
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,amsthm,xspace,amsfonts,amscd,braket,bm,bbm,braket,mathtools}
@@ -43,6 +44,7 @@
 \renewcommand\H{\mathcal{H}}
 \newcommand\Q{\mathcal{Q}}
 
+\setlength{\topsep}{2.5pt}
 \theoremstyle{plain}
 \newtheorem*{theorem*}{Theorem}
 \newtheorem{theorem}{Theorem}
@@ -84,6 +86,8 @@ It is often necessary to prove that a statement holds for any natural number. Fo
 \[\sum_{i=0}^n i = \frac{n(n+1)}{2}\]
 
 This sort of statement is impossible to verify for every \(n \in \ZZ\) due to the infinite nature of the natural numbers. We could alternatively try to prove this by considering any arbitrary \(n \in \ZZ\) and proving that it is true directly. However, this can be very challenging to prove and ignores the statement's structure. This structure is one of the smaller or earlier cases implying similar properties for subsequent cases. Namely, we have that \(\sum_{i=0}^{n+1} i = (n+1) + \sum_{i=1}^n i\). Instead, we can show that some initial cases satisfy the desired statement, which serves as a starting point for a chain of implications that will, in turn, prove the statement for the whole domain.
+
+\subsection{Weak Induction}
 
 Intuitively, we can think of this as a sequence of dominos. We have to knock over the first domino (proving the initial/base cases), and then if the dominos are close enough together, each domino will knock over the next in the sequence creating a chain of implications.
 Pictorially, this chain of implication looks like the following.
@@ -162,7 +166,7 @@ The above proof by induction is an example of \emph{weak induction}, the most ba
 
 Now that we have looked at an example, we can formalize this model of induction. We state the Principle or Law of Weak Induction (also called the axiom of induction), which is why induction works.
 
-\begin{definition}[Law of Weak Induction]
+\begin{definition}[Law of Weak Induction]\label{law_of_weak_ind}
     Let \(P(n)\) be a statement regarding a natural number, \(n \in \ZZ\). If 
     \begin{enumerate}
         \item \(P(0)\) is true and
@@ -193,7 +197,7 @@ To emphasise this point more, let's say we are trying to prove the following pro
 
     \textbf{Inductive Hypothesis}: Fix a \(k \geq 0\) and suppose that \(P(k)\) is true.
 
-    \textbf{Inductive Step}: Show that \(P(k) \ra P(k+1)\) is true.
+    \textbf{Inductive Step}: Show that \(P(k) \ra P(k+1)\).
 
     Then, by the law of (weak) induction, we have proven that \(\forall n \geq 0 : P(n)\).
 \end{proof}
@@ -227,7 +231,7 @@ As we did for weak induction, we can look at a template proof using strong induc
 
     \textbf{Inductive Hypothesis}: Fix a \(k \geq 0\) and suppose that \(\forall j \leq k: P(k)\) is true.
 
-    \textbf{Inductive Step}: Show that \(\left(\forall j \leq k: P(k)\right) \ra P(k+1)\) is true.
+    \textbf{Inductive Step}: Show that \(\left(\forall j \leq k: P(k)\right) \ra P(k+1)\).
 
     Then, by the law of (strong) induction, we have proven that \(\forall n \geq 0 : P(n)\).
 \end{proof}
@@ -254,15 +258,17 @@ Notice the only difference between strong and weak induction is the inductive hy
                 \node (text\lab) at ($(\lab) + (0,0.5)$) {$\scriptstyle\lab$};
 
             \draw [->,>=stealth,line width=1.5pt] ($(basecase) + (1.4,0)$) to ($(0) + (-0.25,0)$);
+            
+            \draw [->,>=stealth,line width=1.5pt,bend right] ($(0) + (0, -0.4)$) to ($(1) + (0, -0.4)$);
 
-            \draw[decorate, decoration={brace, amplitude=1ex, raise=1ex},line width=1.5pt] ($(1) + (0, -0.2)$) -- ($(0) + (0, -0.2)$) node[pos=.5, left=2.5ex] {};
-            \draw [->,>=stealth,line width=1.5pt,bend right] ($0.5*(0) + 0.5*(1) + (0, -0.65)$) to ($(2) + (0, -0.4)$);
+            \draw[decorate, decoration={brace, amplitude=1ex, raise=1ex},line width=1.5pt] ($(1) + (0, -0.5)$) -- ($(0) + (0, -0.5)$) node[pos=.5, left=2.5ex] {};
+            \draw [->,>=stealth,line width=1.5pt,bend right] ($0.5*(0) + 0.5*(1) + (0, -0.95)$) to ($(2) + (0, -0.4)$);
 
-            \draw[decorate, decoration={brace, amplitude=1ex, raise=1ex},line width=1.5pt] ($(2) + (0, -0.6)$) -- ($(0) + (0, -0.8)$) node[pos=.5, left=2.5ex] {};
-            \draw [->,>=stealth,line width=1.5pt,bend right] ($0.5*(0) + 0.5*(2) + (0.05, -1.15)$) to ($(3) + (0, -0.4)$);
+            \draw[decorate, decoration={brace, amplitude=1ex, raise=1ex},line width=1.5pt] ($(2) + (0, -0.8)$) -- ($(0) + (0, -1)$) node[pos=.5, left=2.5ex] {};
+            \draw [->,>=stealth,line width=1.5pt,bend right] ($0.5*(0) + 0.5*(2) + (0.05, -1.35)$) to ($(3) + (0, -0.4)$);
 
-            \draw[decorate, decoration={brace, amplitude=1ex, raise=1ex},line width=1.5pt] ($(3) + (0, -1)$) -- ($(0) + (0, -1.4)$) node[pos=.5, left=2.5ex] {};
-            \draw [->,>=stealth,line width=1.5pt,bend right] ($0.5*(0) + 0.5*(3) + (0.08, -1.65)$) to ($(4) + (0, -0.4)$);
+            \draw[decorate, decoration={brace, amplitude=1ex, raise=1ex},line width=1.5pt] ($(3) + (0, -1.1)$) -- ($(0) + (0, -1.5)$) node[pos=.5, left=2.5ex] {};
+            \draw [->,>=stealth,line width=1.5pt,bend right] ($0.5*(0) + 0.5*(3) + (0.08, -1.75)$) to ($(4) + (0, -0.45)$);
 
             \draw[decorate, decoration={brace, amplitude=1ex, raise=1ex},line width=1.5pt] ($(k) + (0, -0.75)$) -- ($(0) + (0, -2)$) node[pos=.5, left=2.5ex] {};
             \draw [->,>=stealth,line width=1.5pt,bend right] ($0.5*(0) + 0.5*(k) + (0.06, -1.8)$) to ($(k+1) + (0, -0.4)$);
@@ -270,7 +276,7 @@ Notice the only difference between strong and weak induction is the inductive hy
         \label{fig2}
     \end{figure}
 
-As a side note, in future classes, and maybe in this one too, we will see what are called loop invariant proofs, which use weak induction under the hood. That is, they assume only that the loop invariant is true at the start of the loop and then prove that it is true at the end of the loop (or at the start of the next iteration, depending on how you phrase it). In comparison, many proofs for recursive algorithms use strong induction. That is, they assume that the algorithm works for subproblems of smaller sizes.
+As a side note, in section \cref{sec_loop_inv}, we will see what are called loop invariant proofs, which use weak induction under the hood. That is, they assume only that the loop invariant is true at the start of the loop and then prove that it is true at the end of the loop (or at the start of the next iteration, depending on how you phrase it). In comparison, many proofs for recursive algorithms use strong induction. That is, they assume that the algorithm works for subproblems of smaller sizes.
 % See \cref{section_rec_alg_correctness} for more info.
 
 We can then give some examples of using strong induction.
@@ -316,7 +322,7 @@ For reference, we write the first few numbers for both sequences:
     In this proof, we used two base cases and assumed the proposition held for both \(n=k\) and \(n=k-1\), but why is this? You will notice that in the inductive step, we applied the inductive hypothesis to both \(L_k\) and \(L_{k-1}\). If we only assumed it held for \(n=k\), then we would be left with \(L_{k+1} = F_{k-1} + F_{k+1} + L_{k-1}\), which wouldn't help us prove the proposition for \(n=k+1\). Next, for the base cases, if we were only to have one base case, for \(n=1\), then the inductive hypothesis would have to consider some fixed \(k \geq 1\). For the smallest value of \(k=1\), this would have us assume that \(L_0 = F_{-1} + F_{1}\), which doesn't make sense as negative Fibonacci numbers haven't been defined in this proposition. As a general rule of thumb, the number of required base cases equals the number of assumptions you make in the inductive hypothesis (this isn't always true, but it often a good rule of thumb to start with).
 \end{remark}
 
-\phantom{abc}
+\subsection{A Longer Example}
 
 Next, we will look at the tournament ranking problem 
 \footnote{Quick integrity check. This problem is often given as homework; if you use this solution at any step while doing your homework for a future or current class, you should always cite your sources.}.
@@ -399,11 +405,223 @@ To make the proof easier, we will consider the base case to be when there are no
     \[\sum_{i = 0}^n F_n = F_{n+2} - 1\]
 \end{problem}
 
-% \section{Proving the Correctness of Recursive Algorithms}\label{section_rec_alg_correctness}
+\begin{problem}
+    Prove that all connected graphs on \(n\) vertices have at least \(n-1\) edges.
+\end{problem}
+
+\section{Loop Invariant Proofs (Unfinished)}\label{sec_loop_inv}
+
+One common variant of induction seen in computer science is a loop invariant proof. In short, these are used when an algorithm has a loop, and you want to prove something about the algorithm. For the proof, you do (weak) induction over the loop to prove that some statement that depends on the loop number is true for each loop and after the loop has terminated. This statement is referred to as a loop invariant.
+
+In addition to a loop invariant, we will also have a statement that determines whether we are still in the loop or not. We will call this the loop condition. If our algorithm is a loop of the form \textbf{while} \(C(i)\) \textbf{do}, then \(C(i)\) is the loop condition. Here, \(i\) is the loop number.
+
+One common confusion with loop invariants is whether the loop invariant should be true at the beginning of the loop or at the end. It turns out that either type of loop invariant works, and, in fact, they are equivalent up to a `\(+1\)' in the loop number. However, there are subtle differences between how the proof is set up using two models. In this section, we discuss both. We suggest that you pick one model and stick with it in your own proofs. It is rarely the case that one is easier than the other, as was true for weak and strong induction. To paint a picture of what a loop invariant is, consider the following bare-bones example.
+
+\begin{example}\label{ex_loop_inv_b_e}
+    We break down an iterative algorithm into parts that will help us understand the structure of a loop invariant. We use ``Initialization Step,'' ``Loop Step,'' and ``Termination Step'' to denote arbitrary code that you would have to reason about in the proof.
+    
+    Any loop can be converted to have the structure of the following example. We let {\color{red}\(I_b(i)\)} denote the loop invariant that is true at the beginning of the loop and {\color{blue}\(I_e(i)\)} be the loop invariant that is true at the end of the loop. Additionally, \(i\) will denote the iteration number, which is explicit in the following example but may not be in general.
+    \begin{center}
+    \begin{minipage}{.5\linewidth}
+    \begin{algorithmic}[1]
+        \State Initialization Step
+        \State {\color{blue}\textbf{assert} \(I_e(0)\)}
+        \State \(i \leftarrow 1\)
+        \While{$C(i)$}
+            \State {\color{red}\textbf{assert} \(I_b(i)\)}
+            \State Loop Step
+            \State {\color{blue}\textbf{assert} \(I_e(i)\)}
+            \State \(i \leftarrow i + 1\)
+        \EndWhile
+        \State {\color{red}\textbf{assert} \(I_b(i)\)}
+        \State Termination Step
+    \end{algorithmic}
+    \end{minipage}
+    \end{center}
+Note that while both variations serve that same purpose, we don't, in general, have that \({\color{red}I_b(i)} = {\color{blue}I_e(i)}\) but instead have that \({\color{red}I_b(i+1)} = {\color{blue}I_e(i)}\). Moreover, \(\color{red}I_b(0)\) need not be defined and same for \(\color{blue}I_e(n+1)\), where \(n\) is the last time that \(C(n)\) is true, i.e., \(C(n+1)\) is false. 
+\end{example}
+
+Before formally defining a loop invariant, we will want a little more structure on the statement, \(C(i)\). Even though it is never used in the loop, it will be useful to have \(C(0)\) defined to be true. Moreover, when the loop terminates, i.e., \(C(n)\) is false for some \(n \geq 1\), we will want to enforce that all larger integers, \(k \geq n\), \(C(k)\) also be false. That is, we will enforce that \(\forall n \geq 1 : \lnot C(n) \ra \forall k \geq n : \lnot C(k)\). We note that neither of these has any bearing on how \(C(i)\) is used in the loop itself, but nonetheless, we do this to make the mathematical definitions easier.
+
+With the loop condition, \(C(i)\), in hand, we can now formally define a loop invariant. We take special consideration as to whether it should be true at the start or the end of the loop, even though both are equivalent, up to how they relate to \(C(i)\).
+
+\begin{definition}[Loop Invariant]
+    A \emph{loop invariant} is a statement \(I(n)\) regarding a non-negative integer \(n \in \ZZ\) that is true until \(C(n)\) is false. More formally, if \(I(n)\) is defined to be true at the beginning of the loop, then \(I(n)\) is a loop invariant if \(\forall n \geq 1 : C(n-1) \ra I(n)\). If, on the other hand, \(I(n)\) is defined to be true at the end of the loop, then \(I(n)\) is a loop invariant if \(I(0) \land \forall n \geq 1 : C(n) \ra I(n)\).
+\end{definition}
+
+\begin{remark}
+    In both cases, you should think of \(C(n)\) as determining if the loop will be run. In the first case (beginning of loop case), we want the loop invariant to be true during the loop and after the loop has terminated. So if \(n\) is the first value that makes \(C(n)\) false, then we still want \(I(n)\) to be true. In the other case (end of loop case), if \(C(n)\) is false, then we wouldn't have run that loop, and thus we only ensure that \(I(n-1)\) is true. 
+\end{remark}
+
+In order to prove a loop invariant, we use induction. However, this time, we have to incorporate the loop condition into the proof. For this, we consider the modified law of (weak) induction. We note that it is, again, equally as powerful as the law of (weak) induction. However, we state the following as propositions to emphasize how they follow from the Law of induction, \cref{law_of_weak_ind}. We, of course, continue to break this down into two cases, whether the loop invariant is defined to be true at the beginning or the end of the loop.
+
+\begin{proposition}[Beginning of Loop Case]\label{law_loop_inv_b}
+    Let \(I(n)\) and \(C(n)\) be statements regarding a natural number, \(n \in \ZZ\), where \(C(0)\) is defined to be true and \(\forall n \geq 0: \lnot C(n) \ra \forall k \geq n : \lnot C(k)\). Then, if
+    \begin{enumerate}
+        \item \(I(1)\) is true and
+        \item \(\forall k \geq 1 : C(k) \land I(k) \ra I(k+1)\) is true
+    \end{enumerate}    
+    then \(\forall n \geq 1 : C(n-1) \ra I(n)\) is true (i.e., \(I(n)\) is loop invariant, at the beginning of the loop).
+\end{proposition}
+
+Next, we give the variant of \cref{law_loop_inv_b} for loop invariants that are true at the end of the loop.
+
+\begin{proposition}[End of Loop Case]\label{law_loop_inv_e}
+    Let \(I(n)\) and \(C(n)\) be statements regarding a natural number, \(n \in \ZZ\), where \(C(0)\) is defined to be true and \(\forall n \geq 0: \lnot C(n) \ra \forall k \geq n : \lnot C(k)\). Then, if
+    \begin{enumerate}
+        \item \(I(0)\) is true and
+        \item \(\forall k \geq 0 : C(k+1) \land I(k) \ra I(k+1)\) is true
+    \end{enumerate}    
+    then \(\forall n \geq 0 : C(n) \ra I(n)\) is true (i.e., \(I(n)\) is loop invariant, at the end of the loop).
+\end{proposition}
+
+\begin{remark}
+    We quickly remark on the differences in the inductive steps for the two definitions. In \cref{law_loop_inv_b}, the inductive hypothesis is \(I(k) \land C(k)\). You can think of this as saying that if the loop invariant is true at the beginning of loop \(k\) and the loop will be executed for iteration \(k\) (i.e., \(C(k)\)), then the loop invariant should be true at the start of the next iteration or after termination.
+
+    Similarly, in \cref{law_loop_inv_e} the inductive hypothesis is \(I(k) \land C(k+1)\). You can think of this as saying that if the loop invariant is true at the end of the \(k\)th loop and the loop will be executed for one more iteration (i.e., \(C(k+1)\)), then the loop invariant should be true at the end of the next iteration.
+\end{remark}
+
+As with before, we give a template proof using this structure. For now, we only give it for \cref{law_loop_inv_b}. The other variant is used in the proof of \cref{prop_correct_lsearch}.
+
+\begin{proposition*}[Template Proposition]
+    \(\forall n \geq 1 : C(n-1) \ra I(n)\) is true (i.e., \(I(n)\) is a loop invariant that is true at the beginning of the loop and after termination).
+\end{proposition*}
+\begin{proof}[Template proof]
+    We prove that \(\forall n \geq 1 : C(n-1) \ra I(n)\) is true by induction over \(n \geq 1\).
+    
+    \textbf{Base Case}: Verify \(I(1)\) is true.
+
+    \textbf{Inductive Hypothesis}: Fix a \(k \geq 1\) and suppose that \(C(k) \land I(k)\) is true.
+
+    \textbf{Inductive Step}: Show that \(C(k) \land I(k) \ra I(k+1)\).
+
+    Then, by the law of (weak) induction, we have proven that \(\forall n \geq 1 : C(n-1) \ra I(n)\).
+\end{proof}
+
+Now that we have discussed proving that a loop invariant is a loop invariant, we will want to use it to prove the correctness of an algorithm. This follows in three parts. First, you need to identify a loop invariant. Second, prove the loop invariant. Finally, use the loop invariant and, in particular, the one after the algorithm terminates, to prove the correctness of the algorithm. In order to do this last step, you will also need to prove that the algorithm terminates, i.e., that \(\exists n \geq 0 : \lnot C(n)\).
+
+\begin{remark}
+    Often a loop invariant proof is phrased in three parts. Initialization, Maintenance, and Termination. The first two steps are equivalent to proving that a loop invariant is indeed a loop invariant. That is, they are the base case and the inductive step, respectively. Then the termination step has you prove that the algorithm terminates and then use the loop invariant to prove the correctness of the algorithm. While this structure is common, we won't use it explicitly in these notes.
+\end{remark}
+
+To make this more clear and to finish this section, we give an example proof of correctness using loop invariants. For this, we consider the following simple algorithm.
+
+\begin{algorithm}[Linear Search Algorithm] \phantom{}\label{alg_lsearch}
+\begin{center}
+\begin{minipage}{.5\linewidth}
+\begin{algorithmic}[1]
+    \Procedure{\textsc{LinearSearch}}{$A[1,\dotsc, n],x$}
+        \For{$k$ from $1$ to $n$}
+            \If{$A[k] = x$}
+                \State \textbf{return} \(k\)
+            \EndIf
+        \EndFor
+        \State \textbf{return} \(-1\)
+    \EndProcedure
+\end{algorithmic}
+\end{minipage}
+\end{center}
+\end{algorithm}
+
+We will prove the following.
+
+\begin{proposition}\label{prop_correct_lsearch}
+    The linear search algorithm, given in \cref{alg_lsearch}, correctly returns an index \(k \in [n] = \{1,\dotsc,n\}\) such that \(A[k] = x\) or \(-1\) is no such index exists. 
+\end{proposition}
+
+\begin{proof}
+    We do this using the following loop invariant that is true before the loop and at the end of each loop, \(I(k) : \forall i \in [k] = \{1, \dotsc, k\} : A[i] \neq x\). In words, the subarray \(A[1,\dotsc,k]\) does not contain the element \(x\) anywhere. We also define the loop condition to be, \(C(k) : k \leq n \land A[k] \neq x\). We then prove this is a valid loop invariant by induction over \(k \geq 1\). That is, we prove that \(\forall k \geq 1 : C(k) \ra I(k)\).
+    
+    \textbf{Base Case}: We first verify that \(I(0) : \forall i \in [0] = \emptyset : A[i] \neq x\) is true. This is the case because the universal quantifier is vacuously true.
+
+    \textbf{Inductive Hypothesis}: Fix a \(k \geq 0\) and suppose that \(C(k+1) \land I(k)\) is true. That is \(k+1 \leq n \land A[k+1] \neq x \land \forall i \in [k] = \{1, \dotsc, k\} : A[i] \neq x\).
+
+    \textbf{Inductive Step}: We then show that the inductive hypothesis implies that \(I(k+1) = \forall i \in [k+1] = \{1, \dotsc, k+1\} : A[i] \neq x\) is true. This follows directly from the loop invariant and the loop condition.
+    \begin{align*}
+        k+1 \leq n \land A[k+1] \neq x \land \forall i \in [k] : A[i] \neq x &\rightarrow \forall i \in [k] : A[i] \neq x \land A[k+1] \neq x \\
+        &\rightarrow \forall i \in [k+1] : A[i] \neq x
+    \end{align*}
+
+    Then, by induction, we have proven that \(\forall k \geq 1 : C(k) \ra I(k)\), i.e., that \(I(k)\) is a loop invariant, which is true at the end of the loop. 
+
+    Finally, we prove the claim. In particular, the loop must terminate as we add one to \(k\) after each iteration, and so eventually, \(k > n\) or \(A[k] = x\). If \(k > n\), then the loop invariant for \(I(n)\) tells us that \(x \notin A\), and thus the algorithm will correctly return \(-1\). If \(A[k] = x\), then the algorithm will terminate and return \(k\), as it found such an index.
+\end{proof}
+
+\begin{remark}
+    Interestingly, the loop invariant was primarily used to prove the correctness of the case where the algorithm returns \(-1\). This is to say that the loop invariant had little to do with the exact statement of the proposition we were proving and instead implied the proposition with some extra work. Additionally, note that, while \(A[k] \neq x\) wasn't in the loop directly, it is important for determining when the loop terminates. Therefore, we need to add it it the loop condition. 
+\end{remark}
+
+\subsection{Problems/Exercises}
+
+\begin{problem}
+    Prove that the alternate linear search algorithm, given bellow in \cref{alg_lsearch_2}, correctly returns an index \(k \in [n] = \{1,\dotsc,n\}\) such that \(A[k] = x\) or \(-1\) is no such index exists. 
+
+    \begin{algorithm}[Alternate Linear Search Algorithm] \phantom{}\label{alg_lsearch_2}
+        \begin{center}
+        \begin{minipage}{.5\linewidth}
+        \begin{algorithmic}[1]
+            \Procedure{\textsc{LinearSearch}}{$A[1,\dotsc, n],x$}
+                \State \(i \leftarrow -1\)
+                \For{$k$ from $1$ to $n$}
+                    \If{$A[k] = x$}
+                        \State \(i \leftarrow k\)
+                    \EndIf
+                \EndFor
+                \State \textbf{return} \(i\)
+            \EndProcedure
+        \end{algorithmic}
+        \end{minipage}
+        \end{center}
+        \end{algorithm}
+\end{problem}
+
+\begin{problem}\label{prob_bin_search_li}
+    Prove that the iterative version of binary search works correctly. That is, for any sorted (ascending) input array \(A[1,\dotsc, n]\) on \(n\) elements of \(\Z\) and an element \(x \in \Z\), the binary search algorithm given bellow will find an index \(i \in [n] = \{1, \dotsc, n\}\) such that \(A[i] = x\) or if none exist then the algorithm gives \(-1\).
+
+    \begin{algorithm}[Binary Search Algorithm] \phantom{}\label{alg_bsearch}
+        \begin{center}
+        \begin{minipage}{.5\linewidth}
+        \begin{algorithmic}[1]
+            \Procedure{\textsc{BinarySearch}}{$A[1,\dotsc, n], x$}
+                \State \(\ell \leftarrow 1\)
+                \State \(r \leftarrow n\)
+    
+                \While{$\ell \leq r$}
+                    \State \(m \leftarrow \ell + \left\lfloor\frac{r - \ell}{2}\right\rfloor\)
+        
+                    \If{$A[m] = x$}
+                        \State \textbf{return} \(m\)
+                    \ElsIf{$A[m] < x$}
+                        \State \(\ell \leftarrow m + 1\)
+                    \Else
+                        \State \(r \leftarrow m - 1\)
+                    \EndIf
+                        
+                \EndWhile	
+                   
+                \State \textbf{return} \(-1\)
+            \EndProcedure
+        \end{algorithmic}
+        \end{minipage}
+        \end{center}
+        \end{algorithm}
+\end{problem}
+
+\begin{problem}
+    You are given a stack of origami paper, all of different sizes. You want to sort them by their size so that you have the largest paper on the bottom and the smallest on top. You can pick up only the top few papers, flip them, and then put them back on top of the pile. You have the idea to
+    \begin{enumerate}
+        \item Find the largest piece of paper, then flip it and the papers above it.
+        \item Flip the pile starting at the \(i\)th paper from the bottom; here \(i\) is the number of times you did this step.
+        \item Repeat steps (1) and (2) until the stack is sorted, but for (1), find the next largest paper.
+    \end{enumerate}
+    Prove this algorithm terminates and that it correctly sorts the papers.
+\end{problem}
+
+% \section{Proving the Correctness of Recursive Algorithms (Unfinished)}\label{section_rec_alg_correctness}
 
 % In this section we look more closely at applying the proof by induction technique to recursive algorithms. As we saw with \cref{alg_tourn_ranking}, a strong induction proof often can been seen as proving the correctness of an algorithm. This is primarily because our proof gave a construction of a ranking. Then, each step in the proof mirrored a step in an algorithm. Moreover, when we used the inductive hypothesis, we assumed that such a construction exist on a smaller tournament sizes. In algorithm terms, we assumed that our algorithm would work for smaller input sizes.
 
-% We can then dissect the parts in a recursive algorithm. Most of the recursive algorithm that we will look at fit the category of a divide-and-conquer algorithm. These have three parts.
+% We can then dissect the parts in a recursive algorithm. Many recursive algorithm can be categorized as a divide-and-conquer algorithm. These have three parts.
 % \begin{enumerate}
 %     \item \textbf{Divide:} Divide the input into sub-problems of strictly smaller size.
 %     \item \textbf{Conquer:} Recursively call the algorithm on these sub-problems.
@@ -415,49 +633,9 @@ To make the proof easier, we will consider the base case to be when there are no
 
 % Consider the following sorting algorithm. We will prove the correctness using proof by induction. Here, by correct, we mean that it correctly sorts a list of numbers.
 
-% \begin{algorithm}[Merge Sort Like Algorithm] To make our life easier, we will assume the input list, \(A[1..n]\), always has a length being a power of 2. \label{alg_merge_sort_like}
-    
-%     \begin{center}
-%     \begin{minipage}{.5\linewidth}
-%     \begin{algorithmic}[1]
-%         \Procedure{\textsc{Sort}}{$A[1..n]$}
-%             \If{\(n > 1\)} 
-%                 \State \textsc{Sort}\((A[1..n/2])\)
-%                 \State \textsc{Sort}\((A[n/2+1..n])\)
-%                 \State \textsc{Merge}\((A[1..n])\)
-%             \EndIf 
-%         \EndProcedure
-%         \State
-%         \Procedure{\textsc{Merge}}{$A[1..n]$}
-%             \If{\(n = 2\)} 
-%                 \If{\(A[1] > A[2]\)}
-%                     \State \textsc{Swap}(\(A[1],A[2]\))
-%                 \EndIf
-%             \Else
-%                 \For{\(i\) in \([1..n/4]\)}
-%                     \State \textsc{Swap}(\(A[i+n/4],A[i + n/2]\))
-%                 \EndFor
-%                 \State \textsc{Merge}\((A[1..n/2])\)
-%                 \State \textsc{Merge}\((A[n/2+1..n])\)
-%                 \State \textsc{Merge}\((A[n/4+1..2n/4])\)
-%             \EndIf 
-%         \EndProcedure
-%     \end{algorithmic}
-%     \end{minipage}
-%     \end{center}
-% \end{algorithm}
-
-% \begin{claim}[Correctness of \cref{alg_merge_sort_like}]
-%     \cref{alg_merge_sort_like} correctly sorts a list of numbers.
-% \end{claim}
-
-% \begin{proof}
-%     TODO
-% \end{proof}
-
 \section{Additional Reading}
 
-For a more in-depth resource, Richard Hammacks's \emph{Book of Proof} (Chapter 10) is a great resource. It can be found here: \url{https://www.people.vcu.edu/~rhammack/BookOfProof/}.
+For a more in-depth resource, Richard Hammacks's \emph{Book of Proof} (Chapter 10) is great. It can be found here: \url{https://www.people.vcu.edu/~rhammack/BookOfProof/}.
 
 Additionally, one of my past TAs, Michael Levet, has an excellent resource on mathematics in computer science, the first chapter of which is on proof by induction: \url{https://michaellevet.github.io/Algorithms_Notes.pdf}
 
