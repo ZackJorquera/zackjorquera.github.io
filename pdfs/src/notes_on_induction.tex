@@ -7,15 +7,34 @@
 \usepackage[capitalise,noabbrev,nameinlink]{cleveref}
 \usepackage{color}
 \usepackage{fullpage}
-\usepackage{biblatex}
 \usepackage{enumitem}
 \usepackage{tikz, calc}
 \usetikzlibrary{calc,shapes.geometric,decorations.pathreplacing}
 \usepackage{optidef}
 \usepackage[skip=5pt]{parskip}
 \usepackage[noend]{algpseudocode}
+\usepackage[
+    style=alphabetic,
+    backend=biber,
+    maxalphanames=5,
+    minalphanames=4,
+    maxbibnames=10,
+    url=false,
+    backref=true,
+    doi=false
+]{biblatex}
 
-%\addbibresource{refs.bib}
+\DefineBibliographyStrings{english}{%
+  backrefpage = {},
+  backrefpages = {},
+}
+\renewcommand*{\finentrypunct}{}
+\usepackage{xpatch}
+%\DeclareFieldFormat{backrefparens}{\mkbibparens{#1\addperiod}}
+\DeclareFieldFormat{backrefparens}{\addperiod#1}
+\xpatchbibmacro{pageref}{parens}{backrefparens}{}{}
+
+\addbibresource{refs.bib}
 
 \newenvironment{solution}{\proof[\textbf{Solution:}]}{\renewcommand{\qedsymbol}{}\endproof}
 \renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
@@ -70,7 +89,6 @@
 
 \title{CSE 101M Handout: Notes on Proof by Induction}
 \author{Zack Jorquera}
-\date{}
 
 \begin{document}
 
@@ -82,14 +100,14 @@ This document will serve as a reference for how to use proof by induction and wh
 
 \section{Proof by Induction}
 
-It is often necessary to prove that a statement holds for any natural number. For example, we may want to prove that for any \(n \in \ZZ\), the following holds (note, we are using \(\ZZ = \{0, 1, 2, \dotsc\}\))
+It is often necessary to prove that a statement holds for any non-negative integer. For example, we may want to prove that for any non-negative integer, \(n \in \ZZ\), the following holds (note, we are using \(\ZZ = \{0, 1, 2, \dotsc\}\))
 \[\sum_{i=0}^n i = \frac{n(n+1)}{2}\]
 
-This sort of statement is impossible to verify for every \(n \in \ZZ\) due to the infinite nature of the natural numbers. We could alternatively try to prove this by considering any arbitrary \(n \in \ZZ\) and proving that it is true directly. However, this can be very challenging to prove and ignores the statement's structure. This structure is one of the smaller or earlier cases implying similar properties for subsequent cases. Namely, we have that \(\sum_{i=0}^{n+1} i = (n+1) + \sum_{i=1}^n i\). Instead, we can show that some initial cases satisfy the desired statement, which serves as a starting point for a chain of implications that will, in turn, prove the statement for the whole domain.
+This sort of statement can be very challenging to prove for every \(n \in \ZZ\) due to the infinite nature of the integers. We could try to prove this by considering any arbitrary \(n \in \ZZ\) and proving that it is true directly. While definitely possible in this case, this type of proof ignores the statement's structure. This structure is one of the smaller or earlier cases implying similar properties for subsequent cases. Namely, we have that \(\sum_{i=0}^{n+1} i = (n+1) + \sum_{i=1}^n i\). Instead, we can show that some initial cases satisfy the desired statement, which serves as a starting point for a chain of implications that will, in turn, prove the statement for the whole domain.
 
 \subsection{Weak Induction}
 
-Intuitively, we can think of this as a sequence of dominos. We have to knock over the first domino (proving the initial/base cases), and then if the dominos are close enough together, each domino will knock over the next in the sequence creating a chain of implications.
+Intuitively, we can think of this as a sequence of dominos \cite{hammack_book_2019}. We have to knock over the first domino (proving the initial/base cases), and then if the dominos are close enough together, each domino will knock over the next in the sequence creating a chain of implications.
 Pictorially, this chain of implication looks like the following.
 
 \begin{figure}[ht]
@@ -123,11 +141,11 @@ Pictorially, this chain of implication looks like the following.
         \label{fig1}
     \end{figure}
 
-More concretely, an inductive proof has three components: The base cases, the inductive hypothesis, and the inductive step.
+More concretely, an inductive proof has three components (adapted from \cite{levet_algorithms_2019}): The base cases, the inductive hypothesis, and the inductive step.
 
 \begin{enumerate}
-    \item \textbf{Bases Cases} - We first verify that the statement holds for the minimal cases (the ones that start the chain of implications).
-    \item \textbf{Inductive Hypothesis} - We want to show that \emph{if} some earlier cases satisfy the statement, \emph{then} so do the subsequent cases. The inductive hypothesis is the \emph{if} part of this if-then statement. We do this by assuming that the statement holds for some or all earlier cases.
+    \item \textbf{Bases Cases} - We first verify that the statement holds for the minimal case(s) (the ones that start the chain of implications).
+    \item \textbf{Inductive Hypothesis} - We want to show that \emph{if} some earlier case(s) satisfy the statement, \emph{then} so do the subsequent cases. The inductive hypothesis is the \emph{if} part of this if-then statement. We do this by assuming that the statement holds for some or all earlier cases.
     \item \textbf{Inductive Step} - We use the inductive hypothesis to prove that the subsequent cases also hold. This is the \emph{then} part of the if-then statement.
 \end{enumerate}
 
@@ -159,15 +177,15 @@ As an example, we can then use this proof technique to prove the following propo
 \end{proof}
 
 \begin{remark}
-    There are many ways to write an inductive hypothesis. For example, we could have said something like ``Fix a \(k \geq 0\), and suppose that the proposition holds." Or we could continue using \(n\) instead of introducing a new variable \(k\). However, be careful. A common mistake is to beg the question/assume the conclusion. That is, if we were to assume that the entire proposition is true. As an incorrect example, I could have said, ``Suppose that for all \(k \geq 0\), the proposition is true." This, however, is incorrect. The goal is to prove the proposition, and so assuming that it is already true defeats the purpose. Instead, we want to fix a \(k\) that is at least as large as our largest base case (in this case \(n=0\)) and assume that the proposition holds for this specific fixed \(k\). This may seem pedantic, but it is important to have the correct wording as otherwise, it can lead to proving incorrect statements.
+    There are many ways to write an inductive hypothesis. For example, we could have said something like ``Fix a \(k \geq 0\), and suppose that the proposition holds." Or we could continue using \(n\) instead of introducing a new variable \(k\). However, be careful. A common mistake is to assume the conclusion. That is, we assume that the entire proposition is true. As an incorrect example, I could have said, ``Suppose that for all \(k \geq 0\), the proposition is true." This, however, is incorrect because it is what we are trying to prove. Instead, we want to give a proof for the inductive step for an arbitrary \(k\). That is, we take assume that the proposition holds for some arbitrary fixed \(k\) and then have induction do the rest starting from the base case. This may seem pedantic, but it is important to have the correct wording as otherwise, it can lead to proving incorrect statements.
 \end{remark}
 
 The above proof by induction is an example of \emph{weak induction}, the most basic form of induction. In short, weak induction is when we only have a single base case, and the inductive hypothesis only assumes the statement is true for some fixed \(k\).
 
-Now that we have looked at an example, we can formalize this model of induction. We state the Principle or Law of Weak Induction (also called the axiom of induction), which is why induction works.
+Now that we have looked at an example, we can formalize this model of induction a bit more. We state the Law (or Axiom) of Weak Induction, which is why induction works.
 
 \begin{definition}[Law of Weak Induction]\label{law_of_weak_ind}
-    Let \(P(n)\) be a statement regarding a natural number, \(n \in \ZZ\). If 
+    Let \(P(n)\) be a statement regarding a non-negative integer, \(n \in \ZZ\). If 
     \begin{enumerate}
         \item \(P(0)\) is true and
         \item \(\forall k \geq 0 : P(k) \ra P(k+1)\) is true
@@ -180,8 +198,6 @@ This law is not proven and is instead typically given as an axiom. It is for thi
 \begin{remark}
     It is often the case that some statements are not true for small values of \(n < c\) bellow some fixed constant \(c \in \ZZ\) but are true for all \(n \geq c\). We can still use the Law of Weak Induction in these cases. If we seek to prove that \(\forall n \geq c : P(n)\), then we could instead consider the statement \(Q(n) : P(n + c)\). Then proving that \(\forall n \geq 0: Q(n)\) is equivalent to \(\forall n \geq c : P(n)\).
 \end{remark}
-
-\phantom{spacer. I could also use vspace if i wanted to}
 
 Finally, we dissect the law of weak induction to understand how our proof of \cref{prop1} fits into this framework. We first prove the base case, this is the \(P(0)\) part. Then we fixed a \(k\) and showed that \(P(k) \ra P(k+1)\). This is both the inductive hypothesis (assuming \(P(k)\) for some fixed \(k\)) and the inductive step (proving the implication itself). Note that we never wrote the \(\forall k \geq 0\) part in the proof. This is because it is implicit. That is, the inductive hypothesis and inductive step we gave works for any \(k \geq 0\) and so by only considering an arbitrary \(k\) the proof we gave works for all \(k \geq 0\). All in all, this proves the second condition, \(\forall k \geq 0 : P(k) \ra P(k+1)\).
 
@@ -207,7 +223,7 @@ To emphasise this point more, let's say we are trying to prove the following pro
 So far, we have looked at weak induction. Another form of induction that is widely used is \emph{strong induction}. In short, strong induction is more relaxed. For the inductive hypothesis, we can assume the statement holds for all cases \(m \leq k\), for some fixed \(k\), and not just for \(k\) alone. Before we go further into this technique, we state the Law of Strong Induction.
 
 \begin{definition}[Law of Strong Induction]
-    Let \(P(n)\) be a statement regarding a natural number, \(n \in \ZZ\). If
+    Let \(P(n)\) be a statement regarding a non-negative integer, \(n \in \ZZ\). If
     \begin{enumerate}
         \item \(P(0)\) is true and
         \item \(\forall k \geq 0 : (\forall j \leq k :  P(k)) \ra P(k+1)\) is true
@@ -334,7 +350,7 @@ So far, all the proofs in this document have only concerned numerical equalities
     Here, \(i_1, i_2, \dotsc, i_n\) denotes a permutation of \(1, 2, \dotsc, n\). Note, an ordering is \emph{not} transitive, that is, for players \(\{P_1, P_2, P_3\}\), \(P_1 \prec P_2 \prec P_3\) does \emph{not} imply \(P_1 \prec P_3\), rather only that \(P_1 \prec P_2\) and \(P_2 \prec P_3\).
 \end{proposition}
 
-\phantom{ignore me}
+\vspace{0.1in}
 
 Before we prove this, it is useful to give the idea of the proof. That is, for our tournament of \(n\) players, which, for notation we will call \(\text{PLAYERS} = \left\{P_1, P_2, \dotsc, P_n\right\}\), we fix player \(P_1\) and consider all the players that lost to player \(P_1\) and all the players that beat \(P_1\). That is, we consider all the players that can go where the \(??\)s are:
 \[?? \prec P_1 \prec ??\]
@@ -456,7 +472,7 @@ With the loop condition, \(C(i)\), in hand, we can now formally define a loop in
 In order to prove a loop invariant, we use induction. However, this time, we have to incorporate the loop condition into the proof. For this, we consider the modified law of (weak) induction. We note that it is, again, equally as powerful as the law of (weak) induction. However, we state the following as propositions to emphasize how they follow from the Law of induction, \cref{law_of_weak_ind}. We, of course, continue to break this down into two cases, whether the loop invariant is defined to be true at the beginning or the end of the loop.
 
 \begin{proposition}[Beginning of Loop Case]\label{law_loop_inv_b}
-    Let \(I(n)\) and \(C(n)\) be statements regarding a natural number, \(n \in \ZZ\), where \(C(0)\) is defined to be true and \(\forall n \geq 0: \lnot C(n) \ra \forall k \geq n : \lnot C(k)\). Then, if
+    Let \(I(n)\) and \(C(n)\) be statements regarding a non-negative integer, \(n \in \ZZ\), where \(C(0)\) is defined to be true and \(\forall n \geq 0: \lnot C(n) \ra \forall k \geq n : \lnot C(k)\). Then, if
     \begin{enumerate}
         \item \(I(1)\) is true and
         \item \(\forall k \geq 1 : C(k) \land I(k) \ra I(k+1)\) is true
@@ -467,7 +483,7 @@ In order to prove a loop invariant, we use induction. However, this time, we hav
 Next, we give the variant of \cref{law_loop_inv_b} for loop invariants that are true at the end of the loop.
 
 \begin{proposition}[End of Loop Case]\label{law_loop_inv_e}
-    Let \(I(n)\) and \(C(n)\) be statements regarding a natural number, \(n \in \ZZ\), where \(C(0)\) is defined to be true and \(\forall n \geq 0: \lnot C(n) \ra \forall k \geq n : \lnot C(k)\). Then, if
+    Let \(I(n)\) and \(C(n)\) be statements regarding a non-negative integer, \(n \in \ZZ\), where \(C(0)\) is defined to be true and \(\forall n \geq 0: \lnot C(n) \ra \forall k \geq n : \lnot C(k)\). Then, if
     \begin{enumerate}
         \item \(I(0)\) is true and
         \item \(\forall k \geq 0 : C(k+1) \land I(k) \ra I(k+1)\) is true
@@ -633,12 +649,11 @@ We will prove the following.
 
 % Consider the following sorting algorithm. We will prove the correctness using proof by induction. Here, by correct, we mean that it correctly sorts a list of numbers.
 
-\section{Additional Reading}
+\defbibnote{note}{For a more in-depth resource, Richard Hammacks's \emph{Book of Proof} (Chapter 10) is great \cite{hammack_book_2019}. It can be found here: \url{https://www.people.vcu.edu/~rhammack/BookOfProof/}.
 
-For a more in-depth resource, Richard Hammacks's \emph{Book of Proof} (Chapter 10) is great. It can be found here: \url{https://www.people.vcu.edu/~rhammack/BookOfProof/}.
+Additionally, one of my past TAs, Michael Levet, has an excellent resource on mathematics in computer science \cite{levet_algorithms_2019}, the first chapter of which is on proof by induction: \url{https://michaellevet.github.io/Algorithms_Notes.pdf}
 
-Additionally, one of my past TAs, Michael Levet, has an excellent resource on mathematics in computer science, the first chapter of which is on proof by induction: \url{https://michaellevet.github.io/Algorithms_Notes.pdf}
-
-Inspiration for earlier drafts of these notes came, in part, from these two sources.
+Inspiration for earlier drafts of these notes came, in part, from these two sources.}
+\printbibliography[title={Additional Reading and Reference},prenote=note]
 
 \end{document}
