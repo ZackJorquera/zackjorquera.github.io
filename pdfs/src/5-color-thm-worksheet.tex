@@ -1,0 +1,385 @@
+%%% Worksheet made by Zack Jorquera for use in CSE 101M (at UCSC) %%%
+
+%%%%% Basics %%%%%
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,xspace,amsfonts,amscd,braket,bm,bbm,braket,mathtools}
+\usepackage{fullpage}
+
+%%% Other stuff
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{calc,shapes.geometric,decorations.pathreplacing}
+\usepackage{ytableau}
+\usepackage{optidef}
+\usepackage{relsize}
+
+%%% Colors and refs
+\usepackage{xcolor}
+\definecolor{nblue}{RGB}{28,130,185}
+\definecolor{dblue}{RGB}{24, 98, 157}
+\definecolor{ddblue}{RGB}{15,50,129}
+\definecolor{ngreen}{RGB}{98,158,31}
+\definecolor{dgreen}{RGB}{78,138,21}
+\definecolor{nmagenta}{RGB}{220, 0, 145}
+\definecolor{dmagenta}{RGB}{139, 0, 91}
+\usepackage[colorlinks=true,linkcolor=dblue,citecolor=ngreen,urlcolor=ddblue,hyperfootnotes=false]{hyperref}
+\usepackage[capitalise,noabbrev,nameinlink]{cleveref}
+
+\crefname{equation}{}{}
+\crefname{enumi}{Part}{Parts}
+
+
+%%% QED Symbol
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}  % fight me on this one
+
+%%% Theorems
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{proposition*}{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{example}{Example}
+\crefname{example}{Example}{Examples}
+\newtheorem*{example*}{Example}
+\newtheorem{problem}{Problem}
+\crefname{problem}{Problem}{Problems}
+\newtheorem*{problem*}{Problem}
+\newtheorem{question}{Question}
+\crefname{question}{Question}{Questions}
+\newtheorem*{question*}{Question}
+\newtheorem{remark}{Remark}
+\crefname{remark}{Remark}{Remarks}
+\newtheorem*{remark*}{Remark}
+\newtheorem{algorithm}{Algorithm}
+\crefname{algorithm}{Algorithm}{Algorithms}
+\newtheorem*{algorithm*}{Algorithm}
+
+%%% Solutions Macros
+
+\usepackage{ifthen}
+\newcommand{\DisplaySolutions}{true} % set to 'true' to enable
+
+\usepackage{environ}
+\NewEnviron{solution}{
+    \ifthenelse{\equal{\DisplaySolutions}{true}}%
+        {\proof[\textbf{Solution:}]{\BODY}\renewcommand{\qedsymbol}{}\endproof}%
+        {}%
+}
+
+% For students: Use this macro if you want the solution to be blue.
+%\newenvironment{solution}{\color{blue}\proof[\textbf{Solution:}]}{\renewcommand{\qedsymbol}{}\endproof}
+
+
+%%%%% MACROS %%%%%
+
+%%% TCS Macros
+\newcommand{\cc}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\algprobm}[1]{\normalfont\textsc{#1}\xspace}
+
+\DeclareMathOperator{\OPT}{OPT}
+\DeclareMathOperator{\Gap}{Gap}
+\DeclareMathOperator{\poly}{poly}
+
+\DeclareMathOperator{\LP}{LP}
+\DeclareMathOperator{\SDP}{SDP}
+
+%%% Math Macros
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\supp}{supp}
+
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Ab}{Ab}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\eval}{eval}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclareMathOperator*{\E}{\mathbb{E}}
+
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\td}{td}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\eig}{eig}
+\DeclareMathOperator{\eigs}{eigs}
+
+\DeclareMathOperator{\Cay}{Cay}
+
+%%% Misc Macros
+\newcommand{\ra}{\rightarrow}
+
+\newcommand{\mathsc}[1]{{\normalfont\textsc{#1}}}
+\newcommand{\mathtext}[1]{{\normalfont\text{#1}}}
+
+\newcommand{\sfT}{\mathsf T}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\RR}{\mathbb{R}^{+}}
+\newcommand{\C}{\mathbb C}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\ZZ}{\mathbb{Z}_{\geq 0}}
+\newcommand{\ZZZ}{\mathbb{Z}_{> 0}}
+\newcommand{\F}{\mathbb F}
+\newcommand{\Q}{\mathbb Q}
+
+\DeclarePairedDelimiter\parens{\lparen}{\rparen}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\braces{\lbrace}{\rbrace}
+\DeclarePairedDelimiter\bracks{\lbrack}{\rbrack}
+\DeclarePairedDelimiter\angles{\langle}{\rangle}
+
+%%% Font fixes
+\usepackage{silence}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\rmfamily
+\DeclareFontShape{T1}{lmr}{b}{sc}{<->ssub*cmr/bx/sc}{}
+\DeclareFontShape{T1}{lmr}{bx}{sc}{<->ssub*cmr/bx/sc}{}
+\WarningFilter{latexfont}{Font shape `T1/lmr/m/scit' undefined}
+
+%%% Move title up a bit %%%
+\usepackage{titling}
+\setlength{\droptitle}{-5em}   % This is your set screw
+
+\ifthenelse{\equal{\DisplaySolutions}{true}}{%
+    \title{The Five Color Theorem Worksheet Solutions}}{%
+    \title{The Five Color Theorem Worksheet}}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\vspace{-0.5in}
+
+In this worksheet we will practice proof by induction by looking at the map coloring problem and proving that all maps can be colored in five colors, which is commonly known as the five color theorem. Some familiarity with graph theory, such as Euler's formula for planar graphs, is assumed. 
+
+\begin{definition}[Graphs]
+    An \emph{undirected graph}, \(G = (V, E)\), is a (discrete) set, \(V\), whose elements are called vertices, and a subset, \(E \subseteq \{e \in 2^{V}\ |\ |e| = 2\}\), of all sets of vertices with cardinally 2, whose elements are called edges\footnote{Often, \(E\) is taken to be a symmetric relation over \(V\), i.e., \(E \subseteq V \times V\). We use this, somewhat less standard, definition to avoid confusion when talking about the cardinality of the set \(E\) and the number of edges in a graph.}. Moreover, A graph is called \emph{planar} if it can be drawn on the plane in such a way that no edges cross each other.
+\end{definition}
+
+\begin{definition}[Path]
+    A \emph{path} (of length \(k\)) in a graph, \(G = (V, E)\), is a finite sequence of vertices, \(P = (v_1, v_2, \dotsc, v_{k+1}) \in V^{k+1}\), such that for every \(i \in [k] = \{1, 2, \dotsc, k\}\) we have that \(\{v_i, v_{i+1}\} \in E\). We call a path a \(u-v\) path if \(v_1 = u\) and \(v_{k+1} = v\).
+\end{definition}
+
+
+\section*{Problems}
+
+\begin{problem}[Map Coloring]
+    You are given a map of countries/state and you are asked to color each country/state such that no two countries/states that share a border have the same color (two countries only sharing a corner can be colored the same color, e.g., Colorado and Arizona). We will seek to figure out the minimum number of colors needed for an arbitrary map.
+    
+    \begin{enumerate}
+        \item Many computer science problems are easier to think of as graph problems. For example, graph coloring, is the problem that asks for an assignment of colors to the vertices such that, for each edge, the vertices have different colors. Explain how to turn the problem of map coloring into a graph coloring problem. Moreover, argue that the constructed graph is planar.
+
+        [Hint: Define \(V\) and \(E\) explicitly.]
+
+        %\vspace{0.7in}
+        \begin{solution}
+            We let \(V = \{\)The set of all countries\(\}\).
+            % And \(E = \{(x,y) \in V \times V\ |\ \text{the countries \(x\) and \(y\) share a border}\}\).
+            And \(E = \{\{x,y\} \subseteq V\ |\ \text{the countries \(x\) and \(y\) (}x \neq y\text{) share a border}\}\)
+
+            The graph coloring problem encodes the map coloring because we have an edge exactly when there is a boarder.
+
+            The planarity follows from the fact that a map is already drawn on a plane. We can use the geographic locations of the countries as an orientation of the graph, then an edge would cross the border. 
+
+            No two border can exist in the same geographic location (except at a corner, which is ruled out by the condition that borders be of non-zero length) so we get no crossing edges.
+        \end{solution}
+
+        \item Let \(f: V \ra [k]\) be an assignment of colors to a graph where there are \(k\) colors labeled by \([k] \coloneq \{1, 2, \dotsc, k\}\). Using quantifiers, give the condition for a planar graph being properly colored, i.e., no two adjacent vertices have the same color.
+
+        \begin{solution}
+            \[\forall \{a,b\} \in E : f(a) \neq f(b)\]
+        \end{solution}
+
+        \item We seek to find the minimum numbers of colors needed to color an arbitrary map or its corresponding graph. Give a lower bound on the minimum number of colors needed.
+
+        [Hint: Give an instance of a map/planar graph that requires \(k\) colors. We say that \(k\) is a lower bound on the number of colors needed to color arbitrary planar graphs.]
+
+        % \vspace{1.1in}
+        \begin{solution}
+            For the lower bound, we can use the complete graph of 4 vertices. This is a planar graph as is evident by Figure \ref{fig1}. Since every vertex has an edge to every other vertex, we know that this graph requires \(k = 4\) colors.
+
+            \begin{figure}[ht]
+                \centering
+                \begin{tikzpicture}[scale=2, every node/.style={circle, draw, scale=2, line width=1.5pt, minimum size=10pt, inner sep=0pt}]
+                    \node (1) at (0,0) [fill=red] {};
+                    \node (2) at (0,1) [fill=green] {};
+                    \node (3) at (0.866,-0.5) [fill=blue] {};
+                    \node (4) at (-0.866,-0.5) [fill=yellow] {};
+                    
+                    \draw [line width=1.5pt] (1) -- (2) -- (3) -- (4) -- (2) (3) -- (1) -- (4);
+                \end{tikzpicture}
+                \caption{The complete graph on 4 vertices colored with 4 colors. Tip: you can look at the solutions .tex file to see how I made this.}
+                \label{fig1}
+            \end{figure}
+        \end{solution}
+
+        \item Show that every map/planar graph can always be colored using 6 colors. We say that 6 is an upper bound on the number of colors needed to color arbitrary planar graphs. 
+
+        \begin{enumerate}
+            \item\label{part_degree_most_5} Argue that every planar graph has at least one vertex with degree at most 5.
+            
+            [Hint: Use the handshake lemma, the fact that \(2 |E| \geq 3 |F|\), and Euler's formula for planar graphs, i.e., \(|V| - |E| + |F| = 2\), to bound the average degree of the graph.]
+
+            \begin{solution}
+                Let \(d_v\) denote the degree of the vertex \(v \in V\). The average degree of a graph is then given by \(\bar{d} \coloneq \frac{1}{|V|}\sum_{v \in V} d_v\). By the hand shake lemma we have that \(\bar{d} = \frac{2 |E|}{|V|}\). We then do the follow using Euler's formula and the fact that \(2 |E| \geq 3 |F|\) (which follows from that fact that every edge touches exactly 2 faces and every face touches at least 3 edges).
+                \begin{align*}
+                    |V| - 2 &= |E| - |F| \\
+                    |V| - 2 &\geq |E| - \frac{2}{3}|E| \\
+                    %|V| - 2 &\geq \frac{1}{3}|E| \\
+                    3|V| - 6 &\geq |E| \\
+                    6-\frac{12}{|V|} &\geq \frac{2 |E|}{|V|}
+                \end{align*}
+                Then, because \(|V| > 1\), we have that \(\frac{12}{|V|} > 0\) and thus \(\bar{d} < 6\). Thus implies that there must be at least on vertex with degree no more than \(5\).
+            \end{solution}
+
+            \item\label{6_color_thm} Use induction to prove that every map/planar graph can always be colored using 6 colors.
+
+            \begin{solution}
+                We do induction over the number of vertices.
+
+                \textbf{Base Case}: Any graph with one vertex can always be colored in 6 or fewer colors.
+
+                \textbf{Inductive Hypothesis}: Fix some \(k \geq 1\) and suppose that all planar graphs with \(k\) vertices can be colored using no more than \(6\) colors.
+
+                \textbf{Inductive Step}: We will show that all planar graphs with \(k+1\) vertices can be colored using no more than \(6\) colors.
+
+                To this end, consider an arbitrary planar graph, \(G=(V,E)\), on \(|V|=k+1\) vertices. Using the results of \cref{part_degree_most_5} we know that there must exists at least one vertex, call it \(v\), that had degree no more than \(5\). We will label it's neighbors by \(v_1,v_2,v_3,v_4,\) and \(v_5\).
+
+                Next, we consider the graph, \(G'\), to be the graph \(G\) but without the vertex \(v\). In particular we let \(V' = V \setminus \{v\}\) and \(E' = \{e \in E\ |\ e \in 2^{V'}\}\), then \(G' = (V',E')\). It is clear that \(G'\) is a graph on \(|V| - 1 = k\) vertices. It is planar because if \(G\) has an orientation (a way to draw \(G\) on a plane such that no edge crossed), then \(G'\) will have the same orientation except without \(v\) and all of it's edges removed. And thus \(G'\) is also planar.  
+            
+                By the inductive hypothesis we have that \(G'\) has a valid coloring of no more than 6 colors. Let this coloring be denoted by \(f' : V' \ra [6]\). We then define a coloring for \(G\) as \(f : V \ra [6]\), where \(f(u) = f'(u)\) for all \(v \in V'\). Then \(f(v)\) can be defined to be a color in the set \([6] \setminus \{f'(v_1), \dotsc, f'(v_5)\}\), which is non empty because there are 6 colors. It then follows that \(f(v) \neq f'(v_i)\) for all \(i \in [5]\) (i.e., for all of \(v\)'s neighbors). And thus, \(G\) has a color of no more than \(6\) colors.
+
+                Thus, by induction, any planar graph can always be colored using 6 colors.
+            \end{solution}
+        \end{enumerate}
+
+        \ifthenelse{\equal{\DisplaySolutions}{true}}{}{\newpage}
+
+        \item\label{5_color_thm} Show that every map/planar graph can always be colored using 5 colors.
+
+        \begin{enumerate}
+            \item\label{prob_recolor} Let \(G = (V,E)\) be a planar graph with a 5-coloring, \(f: V \ra [5]\). Let \(u,v \in V\) be two distinct vertices that are assigned different colors.
+            Give an equivalent condition for when there can not exists a coloring \(f': V \ra [5]\) such that \(f'(u) = f'(v)\) and \(\forall w \in V : f(w) \notin \{f(u), f(v)\} \ra f'(w) = f(w)\) that depends on the existence of a particular type of \(u-v\) path.
+
+            [Hint: Use \(f\) to influence additional properties you wish to place on the \(u-v\) path to get an equivalent condition.]
+
+            \begin{solution}
+                We consider the induced subgraph of the vertices that have the same color as \(u\) or \(v\) in \(f\). In particular, let \(V' = \{v \in V\ |\ v \in \{f(u), f(v)\}\}\) then \(G' = G(V')\) is this induced subgraph (i.e., its edge set is defined to be \(E' = \{e \in E\ |\ e \subseteq V'\}\)). It is clear that \(G'\) has a 2-coloring, \(g: V \ra [2]\), as the image of \(f\) restricted to \(V'\) is \(\{f(u), f(v)\}\), by construction. In particular, \(g(u) \neq g(v)\). 
+                
+                We can then argue that the condition that \(G'\) has a two coloring, \(g': V' \ra [2]\), such that \(g'(u) = g'(v)\) is equivalent to the condition that \(f': V \ra [5]\) is a 5-coloring of \(G\) such that \(f'(u) = f'(v)\) and \(\forall w \in V : f(w) \notin \{f(u), f(v)\} \ra f'(w) = f(w)\). In particular, we can always construct a valid 5 coloring, \(f'\), from \(g'\) to be
+                \[f'(w) = \begin{cases}
+                    f(w) & w \in V \setminus V' \\
+                    f(u) & g'(w) = 1 \\
+                    f(v) & g'(w) = 2 \\
+                \end{cases}\]
+                The other direction is immediate. 
+
+                Finally, we argue that this new condition, that there can't exists a two coloring, \(g'\), in \(G'\) such that \(g'(u) = g'(v)\) is equivalent to the condition that there exists a \(u-v\) path in \(G'\). We note that in both cases the existance of a two-coloring, \(g\), such that \(g(u) \neq g(v)\) is assumed. Moreover, the existence of a \(2\)-coloring, \(g\), such that \(g(u) \neq g(v)\) implies that either there is no \(u-v\) path in \(G'\) or that there is a \(u-v\) path of odd length. 
+                
+                We first prove the only if direction (\(\Rightarrow\)) by contrapositive. If there is no \(u-v\) path in \(G'\), then we can always construct a new coloring such that \(g'(u) = g'(v)\). For the if direction (\(\Leftarrow\)), we assume there is a \(u-v\) path in \(G'\), which must be odd length. It is impossible to color an odd length path such that the end points have the same color. 
+            \end{solution}
+
+            \item Strengthen your proof in \cref{6_color_thm} to prove that every map/planar graph can always be colored using 5 colors. 
+            
+            [Hint: In the inductive step, set up a contradiction to argue that you can always recolor the graph assumed to be 5-colorable by the inductive hypothesis in such a way so that the same inductive step is in \cref{6_color_thm} can be used but for \(5\) colors. In particular, use \cref{prob_recolor} to argue that if no recoloring exists then the graph isn't planar.]
+
+            % This is a hard problem. I dont think any student will get it on their own. There might be a way to give better hints so they can come up with it easier, but idk.
+                
+            \begin{solution}
+                We do induction over the number of vertices.
+    
+                \textbf{Base Case}: Any graph with one vertex can always be colored in 5 or fewer colors.
+    
+                \textbf{Inductive Hypothesis}: Fix some \(k \geq 1\) and suppose that all planar graphs with \(k\) vertices can be colored using no more than \(5\) colors.
+    
+                \textbf{Inductive Step}: We will show that all planar graphs with \(k+1\) vertices can be colored using no more than \(5\) colors.
+    
+                To this end, consider an arbitrary planar graph, \(G=(V,E)\), on \(|V|=k+1\) vertices. Using the results of \cref{part_degree_most_5} we know that there must exists at least one vertex, call it \(v\), that had degree no more than \(5\). We will label it's neighbors by \(v_1,v_2,v_3,v_4,\) and \(v_5\). We assume they are oriented cyclically as seen in \cref{fig2}. 
+    
+                Next, we consider the graph, \(G'\), to be the graph \(G\) but without the vertex \(v\). In particular we let \(V' = V \setminus \{v\}\) and \(E' = \{e \in E\ |\ e \in 2^{V'}\}\), then \(G' = (V',E')\). It is clear that \(G'\) is a graph on \(|V| - 1 = k\) vertices. It is planar because if \(G\) has an orientation (a way to draw \(G\) on a plane such that no edge crossed), then \(G'\) will have the same orientation except without \(v\) and all of it's edges removed. And thus \(G'\) is also planar.  
+            
+                By the inductive hypothesis we have that \(G'\) has a valid coloring of no more than 5 colors. Let this coloring be denoted by \(f' : V' \ra [5]\). If \(|\{f'(v_i)\ |\ i\in[5]\}| < 5\), then we are done. Otherwise, we argue that we can construct a new coloring of \(G'\) (call it \(f'': V' \ra [5]\)) by changing the color assigned to \(v_1\) to match the color assigned to \(v_3\) (i.e., \(f''(v_1) = f''(v_3)\)) \textbf{\emph{or}} by changing the color assigned to \(v_2\) to match the color assigned to \(v_4\) (i.e., \(f''(v_2) = f''(v_4)\)) without changing the colors assigned to \(v\)'s other neighbors\footnote{Intuitively, the idea is to recolor \(v_1\) to have the same color as \(v_3\) (i.e., \(f'(v_3)\)). This would cause a problem with any of \(v_1\)'s neighbors that are colored the same as \(v_3\), so we recolor all of them to have the original color of \(v_1\) (i.e., \(f'(v_1)\)). We can repeat this process, changing only the vertices with colors \(f'(v_1)\) and \(f'(v_3)\). Eventually we would either reach \(v_3\), in which case we say that ``\(v_1\) can not be changed to match the color of \(v_3\)" or we never reach \(v_3\), in which case we were successfully able to recolor the graph so that \(|\{f'(v_i)\ |\ i\in[5]\}| = 4\). We will use contradiction to argue that the first case can't be true for both \(v_1,v_3\) and \(v_2,v_4\).}. In particular, this means that \(|\{f''(v_i)\ |\ i\in[5]\}| < 5\). 
+                
+                We do this by contradiction. Assume that this is not possible, i.e., the color assigned to \(v_1\) can not be changed to match the color of \(v_3\) and the color assigned to \(v_2\) can not be changed to match the color of \(v_4\). This implies that there is a path from \(v_1\) to \(v_3\) with alternating assignments of colors \(f'(v_1)\) and \(f'(v_3)\). This is a direct result of \cref{prob_recolor}.
+                %As otherwise, we could recolor \(v_1\) to have the same color as \(v_3\) without changing any of the other colors among \(v\)'s neighbors. That is, if we change of the color of \(v_1\) then in order to get a valid coloring we would also have to change the color of \(v_3\).
+                Additionally, we must have a path from \(v_2\) to \(v_4\) with alternating assignments of colors \(f'(v_2)\) and \(f'(v_4)\). Eventually these paths must cross, as they share no common vertices, which would contradict the planarity of the graph (see \cref{fig2}). Thus, by contradiction, we must be able to change the color assigned to \(v_1\) to match the color assigned to \(v_3\) (i.e., \(f''(v_1) = f''(v_3)\)) or be able to change the color assigned to \(v_2\) to match the color assigned to \(v_4\). Therefore, we can recolor \(v\)'s neighbors in such a way so there are only \(4\) colors among all \(v\)'s neighbors. 
+    
+                \begin{figure}[ht]
+                \centering
+                \begin{tikzpicture}[scale=2, every node/.style={circle, draw, scale=2, line width=1.5pt, minimum size=10pt, inner sep=0pt}]
+                    \node (0) at (0,0) [dashed] {$v$};
+                    \node (1) at (0,1) [fill=red] {$v_1$};
+                    \node (2) at (0.951,0.309) [fill=green] {$v_2$};
+                    \node (3) at (0.588,-0.809) [fill=blue] {$v_3$};
+                    \node (4) at (-0.588,-0.809) [fill=yellow] {$v_4$};
+                    \node (5) at (-0.951,0.309) [fill=orange] {$v_5$};
+    
+                    \coordinate (1a) at ($(1) + (0,0.75)$);
+                    \node (1b) at ($(1) + (0.707,0.707)$) [fill=blue] {};
+                    \coordinate (1c) at ($(1) + (0.75,0)$);
+                    \node (1d) at ($(1) + (1.707,0.707)$)[fill=red] {};
+                    \node (1e) at ($(1) + (1.707+0.707,0)$) [fill=blue] {};
+    
+                    \coordinate (2a) at ($(2) + (0.75*0.993,0.75*0.11)$);
+                    \node (2b) at ($(2) + (0.783,-0.622)$) [fill=yellow] {};
+                    \coordinate (2c) at ($(2) + (0.75 * 0.114,-0.75 * 0.993)$);
+                    \node (2d) at ($(2) + (2 * 0.707,-2 * 0.707)$) [fill=green] {};
+    
+                    \coordinate (3a) at ($(3) + (0,-0.75)$);
+                    \coordinate (3b) at ($(3) + (0.75,0)$);
+    
+                    \coordinate (4a) at ($(4) + (-0.75,-0)$);
+                    \coordinate (4b) at ($(4) + (-0.75 * 0.707,-0.75 * 0.707)$);
+                    
+                    \coordinate (5a) at ($(5) + (-0.75 * 0.891,-0.75 * 0.452)$);
+                    \coordinate (5b) at ($(5) + (-0.75 * 0.951,0.75 * 0.309)$);
+                    \coordinate (5c) at ($(5) + (-0.75 * 0.454,0.75 * 0.891)$);
+    
+                    \node (1f) at ($(2b) + (0.75,0)$) [draw=none,rotate=65] {$\cdots$};
+                    \node (2e) at ($(3) + (0.5,-1)$) [draw=none,rotate=0] {$\cdots$};
+                    
+                    \draw [line width=1.5pt] (1) -- (0) -- (2) (3) -- (0) -- (4) (0) -- (5);
+                    \draw [line width=1.5pt] (1a) -- (1) -- (1c);
+                    \draw [line width=1.5pt] (1) -- (1b) -- (1d) -- (1e) to[out=-50,in=45] (1f) to[out=-135,in=-50] (3);
+                    \draw [line width=1.5pt] (2a) -- (2) -- (2c);
+                    \draw [line width=1.5pt] (2) -- (2b) -- (2d) to[out=-120,in=0] (2e) to[out=-180,in=-70] (4);
+                    \draw [line width=1.5pt] (3a) -- (3) -- (3b) (4a) -- (4) -- (4b) (5a) -- (5) -- (5b) (5) -- (5c);
+                \end{tikzpicture}
+                \caption{In the graph, \(G'\), the existences of the two paths from \(v_1\) to \(v_3\) and \(v_2\) to \(v_4\) contradicts with the graph being planar.}
+                \label{fig2}
+            \end{figure}
+    
+                Let \(f'': V' \ra [5]\) be this recoloring. We then define a coloring for \(G\) as \(f : V \ra [5]\), where \(f(u) = f''(u)\) for all \(v \in V'\). Then \(f(v)\) can be defined to be a color in the set \([5] \setminus \{f'(v_1), \dotsc, f''(v_5)\}\), which is non empty because there are 4 colors assigned to \(v\)'s neighbors in the recoloring. It then follows that \(f(v) \neq f(v_i)\) for all \(i \in [5]\) (i.e., for all of \(v\)'s neighbors). And thus \(G\) has a coloring of no more than 5 colors.
+    
+                And thus, by induction any planar graph can always be colored using 5 colors.
+            \end{solution}
+        \end{enumerate}
+    \end{enumerate}
+
+    \begin{remark*}
+            To understand what lower and upper bounds mean in the context of this question, I'll give an analogy. Imagine you are a painter, and I'm about to give you a map or a graph that I want you to paint. You know \(|V|\) (and maybe also \(|E|\)), but you don't know what the specific graph is. How many colors should you prepare on your palette?
+
+            For a lower bound, we showed that there exists a map/graph that requires 4 colors so you should have at least 4 colors prepared. For an upper bound, we showed that every graph can be colored in \(6\) (or \(5\) if you did \cref{6_color_thm}) colors, so you don't need to prepare more colors than that. In fact, there is a ``4 color theorem,'' which states that you only ever need to prepare 4 colors.
+        \end{remark*}
+\end{problem}
+
+\end{document}
